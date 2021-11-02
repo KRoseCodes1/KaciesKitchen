@@ -5,17 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaciesKitchen.Data
+namespace KaciesKitchen.Models.Ingredient
 {
-    public class Ingredient
+    public class IngredientListItem
     {
-        [Key]
         public int IngredientId { get; set; }
-        [Required]
-        public string IngredientName { get; set; }
-        [Required]
+        public string Name { get; set; }
+        [Display(Name="Unit of Measurement")]
         public string Unit { get; set; }
-        [Required]
-        public double PricePerUnit { get; set; }
+        [Display(Name="Price Per Unit")]
+        public double Cost { get; set; }
     }
 }

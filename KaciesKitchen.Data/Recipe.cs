@@ -13,14 +13,15 @@ namespace KaciesKitchen.Data
         public int RecipeId { get; set; }
         [Required]
         public string Directions { get; set; }
+        [Required]
         public double Cost { get; set; }
         [Required]
         public string Name { get; set; }
         [Display(Name="Date Created")]
         [Required]
-        public DateTime DateCreated { get; set; }
+        public DateTimeOffset DateCreated { get; set; }
         [Display(Name = "Last Updated")]
-        public DateTime? LastUpdated { get; set; }
+        public DateTimeOffset? LastUpdated { get; set; }
         [Required]
         [Display(Name="List of Ingredients & Amounts")]
         public List<KeyValuePair<Ingredient, int>> IngredientsUsed { get; set; }
