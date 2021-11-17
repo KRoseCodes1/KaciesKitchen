@@ -1,0 +1,51 @@
+﻿@model KaciesKitchen.Models.RecipeModels.IngredientDictionary
+@using KaciesKitchen.Data;
+
+@{
+    var ctx = new KaciesKitchen.Data.ApplicationDbContext();
+    IEnumerable<Ingredient> ingredients = ctx.Ingredients; }
+@using (Html.BeginForm(new { action = "create", controller = "home" }))
+{
+    foreach (var kvp in Model.IngredientsList)
+    {
+        <h4>Ingredients List</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        var x = ingredients.Count();
+        <label for="Ingredients">Add an Ingredient:</label>
+        <select name="IngredientsList" id="IngredientsList">
+            @foreach (Ingredient ing in ingredients)
+            {<text>
+                    <option name="Model.IngredientsList[@x].Key" value="@ing.IngredientName">@ing.IngredientName</option>
+            </text>}
+        </select>
+        <input type="text" name="Model.IngredientsList[@x].Value" value="@kvp.Value" placeholder="Amount of Ingredient" />
+        <input type="hidden" name="Model.IngredientsLists.Index" value="@x" />
+        <p>
+            <input type="submit" value="Add To List" />
+        </p>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IngredientsList.Keys)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IngredientsList.Values)
+                </th>
+            </tr>
+            @foreach (KeyValuePair<Ingredient, int> item in Model.IngredientsList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Key)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value)@Html.DisplayFor(modelItem => item.Key.Unit)
+                    </td>
+                </tr>
+            }
+        </table>
+
+    }
+}

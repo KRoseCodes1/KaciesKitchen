@@ -5,26 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KaciesKitchen.Data
+
+namespace KaciesKitchen.Models.RecipeModels
 {
-    public class Recipe
+    public class RecipeListItem
     {
-        [Key]
         public int RecipeId { get; set; }
-        [Required]
-        public string Directions { get; set; }
-        [Required]
-        public decimal Cost { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Display(Name="Date Created")]
-        [Required]
+        [Display(Name = "Ingredients List")]
+        public Dictionary<KaciesKitchen.Data.Ingredient, int> IngredientsUsed { get; set; }
+        public string Directions { get; set; }
+        public decimal Cost { get; set; }
+        [Display(Name = "Date Created")]
         public DateTimeOffset DateCreated { get; set; }
         [Display(Name = "Last Updated")]
         public DateTimeOffset? LastUpdated { get; set; }
-        [Required]
-        [Display(Name = "List of Ingredients & Amounts")]
-        public Dictionary<Ingredient, int> IngredientsUsed { get; set; }
-
     }
 }

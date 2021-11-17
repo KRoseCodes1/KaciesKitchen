@@ -11,9 +11,8 @@ namespace KaciesKitchen.Models.Ingredient
     {
         public int IngredientId { get; set; }
         public string Name { get; set; }
-        [Display(Name="Unit of Measurement")]
         public string Unit { get; set; }
         [Display(Name="Price Per Unit")]
-        public double Cost { get; set; }
+        public decimal PricePerUnit { get; set; }
     }
 }

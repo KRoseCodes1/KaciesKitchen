@@ -16,6 +16,6 @@ namespace KaciesKitchen.Data
         [Required]
         public string Unit { get; set; }
         [Required]
-        public double PricePerUnit { get; set; }
+        public decimal PricePerUnit { get; set; }
     }
 }
