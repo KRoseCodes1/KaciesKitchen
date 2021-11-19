@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="IngredientModels\IngredientCreate.cs" />
     <Compile Include="IngredientModels\IngredientListItem.cs" />
+    <Compile Include="IngredientModels\IngredientUpdate.cs" />
     <Compile Include="ProductModels\ProductCreate.cs" />
     <Compile Include="ProductModels\ProductListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

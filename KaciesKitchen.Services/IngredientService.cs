@@ -1,5 +1,6 @@
 ﻿using KaciesKitchen.Data;
 using KaciesKitchen.Models.Ingredient;
+using KaciesKitchen.Models.IngredientModels;
 using KaciesKitchen.Models.RecipeModels;
 using System;
 using System.Collections.Generic;
@@ -31,24 +32,53 @@ namespace KaciesKitchen.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-    }
-    public IEnumerable<IngredientListItem> GetIngredient()
-    {
-        using (var ctx = new ApplicationDbContext())
+        public IEnumerable<IngredientListItem> GetIngredients()
         {
-            var query =
-                ctx.Ingredients
-                .Select(
-                   e =>
-                   new IngredientListItem
-                   {
-                       IngredientId = e.IngredientId,
-                       Name = e.IngredientName,
-                       Unit = e.Unit,
-                       PricePerUnit = e.PricePerUnit
-                   }
-                );
-            return query.ToArray();
+            using (var ctx = new ApplicationDbContext())
+            {
+                var query =
+                    ctx.Ingredients
+                    .Select(
+                       e =>
+                       new IngredientListItem
+                       {
+                           IngredientId = e.IngredientId,
+                           Name = e.IngredientName,
+                           Unit = e.Unit,
+                           PricePerUnit = e.PricePerUnit
+                       }
+                    );
+                return query.ToArray();
+            }
+        }
+        public IngredientListItem GetIngredientById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx.Ingredients
+                    .Single(e => e.IngredientId == id);
+                return new IngredientListItem
+                {
+                    IngredientId = entity.IngredientId,
+                    Name = entity.IngredientName,
+                    Unit = entity.Unit,
+                    PricePerUnit = entity.PricePerUnit
+                };
+            }
+        }
+        public bool UpdateIngredient(IngredientUpdate model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx.Ingredients.Single(e => e.IngredientId == model.IngredientId);
+                entity.IngredientName = model.Name;
+                entity.Unit = model.Unit;
+                entity.PricePerUnit = model.PricePerUnit;
+
+                return ctx.SaveChanges() == 1;
+            }
         }
     }
 }
