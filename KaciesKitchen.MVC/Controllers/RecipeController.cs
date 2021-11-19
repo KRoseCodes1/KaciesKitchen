@@ -45,6 +45,13 @@ namespace KaciesKitchen.MVC.Controllers
             }
             return View(model);
         }
+        public ActionResult Details(int id)
+        {
+            var service = CreateRecipeService();
+            var model = service.GetRecipeById(id);
+
+            return View(model);
+        }
 
         private RecipeService CreateRecipeService()
         {

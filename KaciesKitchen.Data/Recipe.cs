@@ -24,7 +24,7 @@ namespace KaciesKitchen.Data
         public DateTimeOffset? LastUpdated { get; set; }
         [Required]
         [Display(Name = "List of Ingredients & Amounts")]
-        public Dictionary<Ingredient, int> IngredientsUsed { get; set; }
+        public Dictionary<int, int> IngredientsUsed { get; set; }
 
     }
 }

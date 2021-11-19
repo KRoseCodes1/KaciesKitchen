@@ -34,14 +34,14 @@
                     @Html.DisplayNameFor(model => model.IngredientsList.Values)
                 </th>
             </tr>
-            @foreach (KeyValuePair<Ingredient, int> item in Model.IngredientsList)
+            @foreach (KeyValuePair<int, int> item in Model.IngredientsList)
             {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Key)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Value)@Html.DisplayFor(modelItem => item.Key.Unit)
+                        @Html.DisplayFor(modelItem => item.Value)
                     </td>
                 </tr>
             }

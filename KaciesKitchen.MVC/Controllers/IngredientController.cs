@@ -84,6 +84,24 @@ namespace KaciesKitchen.MVC.Controllers
             ModelState.AddModelError("", "The ingredient could not be updated.");
             return View();
         }
+        [ActionName("Delete")]
+        public ActionResult Delete(int id)
+        {
+            var service = CreateIngredientService();
+            var model = service.GetIngredientById(id);
+
+            return View(model);
+        }
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteIngredient(int id)
+        {
+            var service = CreateIngredientService();
+            service.DeleteIngredient(id);
+            TempData["SaveResult"] = "Ingredient was deleted successfully.";
+            return RedirectToAction("Index");
+        }
         private IngredientService CreateIngredientService()
         {
             var userId = Guid.Parse(User.Identity.GetUserId());

@@ -10,12 +10,12 @@ namespace KaciesKitchen.Models.RecipeModels
     {
         public IngredientDictionary()
         {
-            IngredientsList = new Dictionary<KaciesKitchen.Data.Ingredient, int>();
+            IngredientsList = new Dictionary<int, int>();
         }
-        public Dictionary<KaciesKitchen.Data.Ingredient, int> IngredientsList { get; set; }
-        public IngredientDictionary Add (KaciesKitchen.Data.Ingredient ing, int amt)
+        public Dictionary<int, int> IngredientsList { get; set; }
+        public IngredientDictionary Add (int ingredientId, int amt)
         {
-            IngredientsList.Add(ing, amt);
+            IngredientsList.Add(ingredientId, amt);
             return this;
         }
     }

@@ -21,7 +21,9 @@ namespace KaciesKitchen.Services
             model.IngredientDictionary = list.IngredientsList;
             foreach (var kvp in model.IngredientDictionary)
             {
-                decimal cost = kvp.Key.PricePerUnit * kvp.Value; // Calculate Cost based on Price per Unit and Amount of each Unit needed for recipe.
+                var ctx = new ApplicationDbContext();
+                Ingredient ing = ctx.Ingredients.Single(e => e.IngredientId == kvp.Key);
+                decimal cost = ing.PricePerUnit * kvp.Value; // Calculate Cost based on Price per Unit and Amount of each Unit needed for recipe.
                 totalCost = totalCost + cost;
             }
             var entity =
@@ -29,7 +31,7 @@ namespace KaciesKitchen.Services
                 {
                     Name = model.Name,
                     Directions = model.Directions,
-                    IngredientsUsed = model.IngredientDictionary,
+                   // IngredientsUsed = model.IngredientDictionary,
                     DateCreated = DateTime.Now,
                     LastUpdated = DateTime.Now,  // When first created, these times should be the same.
                     Cost = totalCost  // Calculated above.
@@ -52,14 +54,39 @@ namespace KaciesKitchen.Services
                        {
                            RecipeId = e.RecipeId,
                            Name = e.Name,
-                           Directions = e.Directions,
-                           Cost = e.Cost,
-                           IngredientsUsed = e.IngredientsUsed,
-                           DateCreated = e.DateCreated,
                            LastUpdated = e.LastUpdated
                        }
                 );
                 return query.ToArray();
+            }
+        }
+        public RecipeListItem GetRecipeById(int id)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx.Recipes
+                    .Single(e => e.RecipeId == id);
+                return new RecipeListItem
+                {
+                    RecipeId = entity.RecipeId,
+                    Name = entity.Name,
+                    LastUpdated = entity.LastUpdated
+                };
+            }
+        }
+        public bool UpdateRecipe(RecipeUpdate model)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx.Recipes.Single(e => e.RecipeId == model.RecipeId);
+                entity.Name = model.Name;
+                entity.Directions = model.Directions;
+                entity.IngredientsUsed = model.IngredientDictionary;
+                entity.LastUpdated = DateTimeOffset.Now;
+
+                return ctx.SaveChanges() == 1;
             }
         }
     }

@@ -15,6 +15,6 @@ namespace KaciesKitchen.Models.RecipeModels
         public string Name { get; set; }
         [MinLength(5, ErrorMessage ="Cannot leave empty: please enter valid directions.")]
         public string Directions { get; set; }
-        public Dictionary<KaciesKitchen.Data.Ingredient,int> IngredientDictionary { get; set; }
+        public Dictionary<int,int> IngredientDictionary { get; set; }
     }
 }

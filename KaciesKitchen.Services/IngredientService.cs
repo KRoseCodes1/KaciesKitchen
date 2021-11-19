@@ -80,5 +80,15 @@ namespace KaciesKitchen.Services
                 return ctx.SaveChanges() == 1;
             }
         }
+        public bool DeleteIngredient(int ingId)
+        {
+            using (var ctx = new ApplicationDbContext())
+            {
+                var entity =
+                    ctx.Ingredients.Single(e => e.IngredientId == ingId);
+                ctx.Ingredients.Remove(entity);
+                return ctx.SaveChanges() == 1;
+            }
+        }
     }
 }
