@@ -1,4 +1,5 @@
-﻿using KaciesKitchen.Models.RecipeModels;
+﻿using KaciesKitchen.Data;
+using KaciesKitchen.Models.RecipeModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -10,6 +11,7 @@ namespace KaciesKitchen.Models.RecipeModels
 {
     public class RecipeCreate
     {
+        public int RecipeId { get; set; }
         [MinLength(2, ErrorMessage = "Name is too short.")]
         [MaxLength(30, ErrorMessage = "Name is too long.")]
         public string Name { get; set; }

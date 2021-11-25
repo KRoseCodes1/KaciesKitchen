@@ -21,7 +21,8 @@ namespace KaciesKitchen.Services
             foreach (var item in model.IngredientsList)
             {
                 var ctx = new ApplicationDbContext();
-                decimal cost = item.Ingredient.PricePerUnit * item.AmountNeeded; // Calculate Cost based on Price per Unit and Amount of each Unit needed for recipe.
+                var ingredient = ctx.Ingredients.FirstOrDefault(c => c.IngredientName == item.IngredientName);
+                decimal cost = ingredient.PricePerUnit * item.AmountNeeded; // Calculate Cost based on Price per Unit and Amount of each Unit needed for recipe.
                 totalCost = totalCost + cost;
             }
             var entity =
@@ -29,7 +30,7 @@ namespace KaciesKitchen.Services
                 {
                     Name = model.Name,
                     Directions = model.Directions,
-                   // IngredientsUsed = model.IngredientDictionary,
+                    IngredientsUsed = model.IngredientsList,
                     DateCreated = DateTime.Now,
                     LastUpdated = DateTime.Now,  // When first created, these times should be the same.
                     Cost = totalCost  // Calculated above.
@@ -58,19 +59,14 @@ namespace KaciesKitchen.Services
                 return query.ToArray();
             }
         }
-        public RecipeListItem GetRecipeById(int id)
+        public Recipe GetRecipeById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx.Recipes
                     .Single(e => e.RecipeId == id);
-                return new RecipeListItem
-                {
-                    RecipeId = entity.RecipeId,
-                    Name = entity.Name,
-                    LastUpdated = entity.LastUpdated
-                };
+                return entity;
             }
         }
         public bool UpdateRecipe(RecipeUpdate model)
@@ -81,7 +77,7 @@ namespace KaciesKitchen.Services
                     ctx.Recipes.Single(e => e.RecipeId == model.RecipeId);
                 entity.Name = model.Name;
                 entity.Directions = model.Directions;
-                entity.IngredientsUsed = model.IngredientDictionary;
+                entity.IngredientsUsed = model.IngredientList;
                 entity.LastUpdated = DateTimeOffset.Now;
 
                 return ctx.SaveChanges() == 1;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace KaciesKitchen.Data
 {
     public class Recipe
@@ -24,7 +25,7 @@ namespace KaciesKitchen.Data
         public DateTimeOffset? LastUpdated { get; set; }
         [Required]
         [Display(Name = "List of Ingredients & Amounts")]
-        public Dictionary<int, int> IngredientsUsed { get; set; }
+        public List<Data.IngredientListDict> IngredientsUsed { get; set; }
 
     }
 }

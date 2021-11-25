@@ -1,14 +1,23 @@
-﻿@model KaciesKitchen.Models.RecipeModels.IngredientListDict
+﻿@model KaciesKitchen.Data.IngredientListDict
+@using HtmlHelpers.BeginCollectionItem;
 @using KaciesKitchen.Data;
 
 @{
     var ctx = new KaciesKitchen.Data.ApplicationDbContext();
     IEnumerable<Ingredient> ingredients = ctx.Ingredients; }
 
-@using (Html.BeginForm())
-            {
-                <div>
-                   
-                </div>
-            }
+<li style="padding-bottom:15px; margin-right: 10px;">
+    @using (Html.BeginCollectionItem("IngredientList"))
+    {
+    @Html.LabelFor(m => m.AmountNeeded)
+    @Html.EditorFor(m => m.AmountNeeded)
+    @Html.ValidationMessageFor(m => m.AmountNeeded)
+
+    @Html.LabelFor(m => m.IngredientName)
+    @Html.EditorFor(m => m.IngredientName)
+    @Html.ValidationMessageFor(m => m.IngredientName)
+
+    <a href="#" onclick="$(this).parent().remove();">Delete</a>
+    }
+</li>
 

@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="IdentityModels.cs" />
     <Compile Include="Ingredient.cs" />
+    <Compile Include="IngredientListDict.cs" />
     <Compile Include="Migrations\202111022252162_InitialCreate.cs" />
     <Compile Include="Migrations\202111022252162_InitialCreate.Designer.cs">
       <DependentUpon>202111022252162_InitialCreate.cs</DependentUpon>
@@ -63,6 +64,10 @@
     <Compile Include="Migrations\202111170041113_InitalMirin.cs" />
     <Compile Include="Migrations\202111170041113_InitalMirin.Designer.cs">
       <DependentUpon>202111170041113_InitalMirin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111252322516_Updated Da fr Recies.cs" />
+    <Compile Include="Migrations\202111252322516_Updated Da fr Recies.Designer.cs">
+      <DependentUpon>202111252322516_Updated Da fr Recies.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Product.cs" />
@@ -79,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202111170041113_InitalMirin.resx">
       <DependentUpon>202111170041113_InitalMirin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111252322516_Updated Da fr Recies.resx">
+      <DependentUpon>202111252322516_Updated Da fr Recies.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

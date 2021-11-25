@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KaciesKitchen.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace KaciesKitchen.Models.RecipeModels
         public string Name { get; set; }
         [MinLength(5, ErrorMessage = "Cannot leave empty: please enter valid directions.")]
         public string Directions { get; set; }
-        public Dictionary<int, int> IngredientDictionary { get; set; }
+        public List<IngredientListDict> IngredientList { get; set; }
     }
 }

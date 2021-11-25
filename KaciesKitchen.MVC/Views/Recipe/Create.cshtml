@@ -1,5 +1,5 @@
 ﻿@model KaciesKitchen.Models.RecipeModels.RecipeCreate
-    @using KaciesKitchen.Models.RecipeModels;
+    @using KaciesKitchen.Data;
 
 @{
     ViewBag.Title = "Create";
@@ -16,6 +16,8 @@
 <fieldset>
     <legend>Create a New Recipe</legend>
     <hr />
+    @Html.HiddenFor(Model => Model.RecipeId)
+
     <div class="editor-label">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
     </div>
@@ -26,48 +28,38 @@
     <hr />
     <div class="editor-label">
         @Html.LabelFor(model => model.Directions, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="editor-field">
+    </div>
+    <div class="editor-field">
             @Html.EditorFor(model => model.Directions, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Directions, "", new { @class = "text-danger" })
-        </div>
     </div>
 </fieldset><br />
 <fieldset>
     <legend>Ingredients Needed:</legend>
-    @if (Model.IngredientsList == null)
+    @if (Model.IngredientsList == null || Model.IngredientsList.Count() == 0)
     {
         <p>Nothing so far. Add an ingredient to get started!</p>
     }
     else
     { <div id="new-Ingredient">
             <ul id="ingredientEditor" style="list-style-type: none">
-                @for (int i = 0; i < Model.IngredientsList.Count; i++)
+                @foreach (IngredientListDict item in Model.IngredientsList)
                 {
-                    <li style="padding-bottom:15px">
-                        @Html.LabelFor(m => m.IngredientsList[i].AmountNeeded)
-                        @Html.TextBoxFor(m => m.IngredientsList[i].AmountNeeded)
-
-                        @Html.LabelFor(m => m.IngredientsList[i].Ingredient.IngredientName)
-                        @Html.TextBoxFor(m => m.IngredientsList[i].Ingredient.IngredientName)
-                        @Html.HiddenFor(m => m.IngredientsList[i].Ingredient.IngredientId)
-                        @Html.HiddenFor(m => m.IngredientsList[i].Ingredient.PricePerUnit)
-                        @Html.HiddenFor(m => m.IngredientsList[i].Ingredient.Unit)
-                        <input type="hidden" name="m.IngredientsList.Index" value="@i" />
-                        <a href="#" onclick="$(this).parent().remove();">Delete</a>
-                    </li>
+                    @Html.Partial("CreatePartial", item);
                 }
             </ul>
-        </div>}
+        </div>
+    }
     <div>
-        <input type="button" id="addingredient" name="addingredient" value="Add Ingredient" /><br />
+        <a id ="addAnother" href="#">Add Another Ingredient</a>
     </div>
-
+    
     @section Scripts
         {
         <script type="text/javascript">
-            $('#addingredient').on('click', function () {
-                $.ajax({ async: false, url: '/Recipe/AddIngredients' }).success(function (CreatePartial) {
-                    $('#new-Ingredient').append(CreatePartial);
+            $("#addAnother").click(function () {
+                $.get('/Recipe/IngredientRow', function (template) {
+                    $("#ingredientEditor").append(template);
                 });
             });
             $("deleteRow").live("click", function () {

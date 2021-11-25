@@ -27,7 +27,7 @@ namespace KaciesKitchen.MVC.Controllers
         {
             var initialData = new IngredientListDict[]
             {
-                new IngredientListDict {Ingredient = new Ingredient{IngredientName = "Milk", Unit = "Cup(s)", PricePerUnit = 0.10M}, AmountNeeded = 1.0M}
+                new IngredientListDict {IngredientName = "Example Ingredient", AmountNeeded = 1.0M}
             };
             var model = new RecipeCreate { IngredientsList = initialData.ToList() };
             return View(model);
@@ -52,17 +52,27 @@ namespace KaciesKitchen.MVC.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult AddIngredients(List<IngredientListItem> ingredients)
+        public ActionResult AddIngredients(List<IngredientListDict> ingredients)
         {
             return View(ingredients);
         }
 
-
+        public ActionResult IngredientRow()
+        {
+            return PartialView("CreatePartial");
+        }
         public ActionResult Details(int id)
         {
             var service = CreateRecipeService();
             var model = service.GetRecipeById(id);
 
+            return View(model);
+        }
+        public ActionResult Edit(int id)
+        {
+            var service = CreateRecipeService();
+            var detail = service.GetRecipeById(id);
+            var model = new RecipeUpdate { RecipeId = detail.RecipeId, Directions = detail.Directions, Name = detail.Name, IngredientList = detail.IngredientsUsed };
             return View(model);
         }
 
