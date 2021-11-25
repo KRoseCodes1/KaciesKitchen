@@ -1,4 +1,5 @@
 ﻿@model KaciesKitchen.Models.RecipeModels.RecipeCreate
+    @using KaciesKitchen.Models.RecipeModels;
 
 @{
     ViewBag.Title = "Create";
@@ -8,43 +9,81 @@
 
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Create a New Recipe</h4>
-    <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
+<fieldset>
+    <legend>Create a New Recipe</legend>
+    <hr />
+    <div class="editor-label">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-        </div>
     </div>
-
-    <div class="form-group">
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+    <hr />
+    <div class="editor-label">
         @Html.LabelFor(model => model.Directions, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div class="editor-field">
             @Html.EditorFor(model => model.Directions, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.Directions, "", new { @class = "text-danger" })
         </div>
     </div>
-    @Html.Partial("CreatePartial")
+</fieldset><br />
+<fieldset>
+    <legend>Ingredients Needed:</legend>
+    @if (Model.IngredientsList == null)
+    {
+        <p>Nothing so far. Add an ingredient to get started!</p>
+    }
+    else
+    { <div id="new-Ingredient">
+            <ul id="ingredientEditor" style="list-style-type: none">
+                @for (int i = 0; i < Model.IngredientsList.Count; i++)
+                {
+                    <li style="padding-bottom:15px">
+                        @Html.LabelFor(m => m.IngredientsList[i].AmountNeeded)
+                        @Html.TextBoxFor(m => m.IngredientsList[i].AmountNeeded)
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
+                        @Html.LabelFor(m => m.IngredientsList[i].Ingredient.IngredientName)
+                        @Html.TextBoxFor(m => m.IngredientsList[i].Ingredient.IngredientName)
+                        @Html.HiddenFor(m => m.IngredientsList[i].Ingredient.IngredientId)
+                        @Html.HiddenFor(m => m.IngredientsList[i].Ingredient.PricePerUnit)
+                        @Html.HiddenFor(m => m.IngredientsList[i].Ingredient.Unit)
+                        <input type="hidden" name="m.IngredientsList.Index" value="@i" />
+                        <a href="#" onclick="$(this).parent().remove();">Delete</a>
+                    </li>
+                }
+            </ul>
+        </div>}
+    <div>
+        <input type="button" id="addingredient" name="addingredient" value="Add Ingredient" /><br />
     </div>
-</div>
+
+    @section Scripts
+        {
+        <script type="text/javascript">
+            $('#addingredient').on('click', function () {
+                $.ajax({ async: false, url: '/Recipe/AddIngredients' }).success(function (CreatePartial) {
+                    $('#new-Ingredient').append(CreatePartial);
+                });
+            });
+            $("deleteRow").live("click", function () {
+                $(this).parents("ingredientRow: first").remove();
+                return false;
+            });
+        </script>
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</fieldset>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create Recipe" class="btn btn-default" />
+        </div>
 }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

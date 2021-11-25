@@ -10,11 +10,11 @@ namespace KaciesKitchen.Models.RecipeModels
 {
     public class RecipeCreate
     {
-        [MinLength(2, ErrorMessage="Name is too short.")]
-        [MaxLength(30, ErrorMessage ="Name is too long.")]
+        [MinLength(2, ErrorMessage = "Name is too short.")]
+        [MaxLength(30, ErrorMessage = "Name is too long.")]
         public string Name { get; set; }
-        [MinLength(5, ErrorMessage ="Cannot leave empty: please enter valid directions.")]
+        [MinLength(5, ErrorMessage = "Cannot leave empty: please enter valid directions.")]
         public string Directions { get; set; }
-        public Dictionary<int,int> IngredientDictionary { get; set; }
+        public List<IngredientListDict> IngredientsList { get; set; }
     }
 }

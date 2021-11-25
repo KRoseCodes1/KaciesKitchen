@@ -20,18 +20,22 @@ namespace KaciesKitchen.MVC.Controllers
         {
             var service = CreateRecipeService();
             var model = service.GetRecipes();
-            return View();
+            return View(model);
         }
         // GET
         public ActionResult Create()
         {
-
-            return View();
+            var initialData = new IngredientListDict[]
+            {
+                new IngredientListDict {Ingredient = new Ingredient{IngredientName = "Milk", Unit = "Cup(s)", PricePerUnit = 0.10M}, AmountNeeded = 1.0M}
+            };
+            var model = new RecipeCreate { IngredientsList = initialData.ToList() };
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(RecipeCreate model, IngredientDictionary list)
+        public ActionResult Create(RecipeCreate model)
         {
             if (!ModelState.IsValid)
             {
@@ -39,12 +43,21 @@ namespace KaciesKitchen.MVC.Controllers
             }
             var service = CreateRecipeService();
 
-            if (service.CreateRecipe(model, list))
+            if (service.CreateRecipe(model))
             {
+                TempData["SaveResult"] = "Your Recipe was created successfully.";
                 return RedirectToAction("Index");
             }
+            ModelState.AddModelError("", "Recipe could not be created.");
             return View(model);
         }
+        [HttpPost]
+        public ActionResult AddIngredients(List<IngredientListItem> ingredients)
+        {
+            return View(ingredients);
+        }
+
+
         public ActionResult Details(int id)
         {
             var service = CreateRecipeService();

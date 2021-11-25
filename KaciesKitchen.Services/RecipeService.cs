@@ -15,15 +15,13 @@ namespace KaciesKitchen.Services
         {
             _userId = userId;
         }
-        public bool CreateRecipe(RecipeCreate model, IngredientDictionary list)
+        public bool CreateRecipe(RecipeCreate model)
         {
             decimal totalCost = 0;
-            model.IngredientDictionary = list.IngredientsList;
-            foreach (var kvp in model.IngredientDictionary)
+            foreach (var item in model.IngredientsList)
             {
                 var ctx = new ApplicationDbContext();
-                Ingredient ing = ctx.Ingredients.Single(e => e.IngredientId == kvp.Key);
-                decimal cost = ing.PricePerUnit * kvp.Value; // Calculate Cost based on Price per Unit and Amount of each Unit needed for recipe.
+                decimal cost = item.Ingredient.PricePerUnit * item.AmountNeeded; // Calculate Cost based on Price per Unit and Amount of each Unit needed for recipe.
                 totalCost = totalCost + cost;
             }
             var entity =

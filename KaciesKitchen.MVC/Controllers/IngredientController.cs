@@ -18,7 +18,7 @@ namespace KaciesKitchen.MVC.Controllers
         {
             var service = CreateIngredientService();
             var model = service.GetIngredients();
-            return View();
+            return View(model);
         }
         // GET
         public ActionResult Create()
@@ -36,10 +36,10 @@ namespace KaciesKitchen.MVC.Controllers
             var service = CreateIngredientService();
             if (service.CreateIngredient(model))
             {
-                TempData["SaveResult"] = "Your note was created.";
+                TempData["SaveResult"] = "Your Ingredient was created.";
                 return RedirectToAction("Index");
             }
-            ModelState.AddModelError("", "Note could not be created.");
+            ModelState.AddModelError("", "Ingredient could not be created.");
             return View(model);
         }
         public ActionResult Details(int id)

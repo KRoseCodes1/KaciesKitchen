@@ -32,7 +32,7 @@ namespace KaciesKitchen.Services
                 return ctx.SaveChanges() == 1;
             }
         }
-        public IEnumerable<IngredientListItem> GetIngredients()
+        public IEnumerable<Models.Ingredient.IngredientListItem> GetIngredients()
         {
             using (var ctx = new ApplicationDbContext())
             {
@@ -40,7 +40,7 @@ namespace KaciesKitchen.Services
                     ctx.Ingredients
                     .Select(
                        e =>
-                       new IngredientListItem
+                       new Models.Ingredient.IngredientListItem
                        {
                            IngredientId = e.IngredientId,
                            Name = e.IngredientName,
@@ -51,14 +51,14 @@ namespace KaciesKitchen.Services
                 return query.ToArray();
             }
         }
-        public IngredientListItem GetIngredientById(int id)
+        public Models.Ingredient.IngredientListItem GetIngredientById(int id)
         {
             using (var ctx = new ApplicationDbContext())
             {
                 var entity =
                     ctx.Ingredients
                     .Single(e => e.IngredientId == id);
-                return new IngredientListItem
+                return new Models.Ingredient.IngredientListItem
                 {
                     IngredientId = entity.IngredientId,
                     Name = entity.IngredientName,
